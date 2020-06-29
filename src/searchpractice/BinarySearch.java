@@ -1,5 +1,6 @@
 package searchpractice;
 
+import static java.util.Arrays.sort;
 import utils.In;
 import utils.Stopwatch;
 
@@ -17,6 +18,8 @@ public class BinarySearch {
     //
     // YOUR TASK: refactor the class name to BinarySearch, using the IDE
     //
+    
+    private static int stepCounter=0;
     
      /**
     * Checks if collection contains an item.
@@ -40,8 +43,32 @@ public class BinarySearch {
  * 
  */    
     public static int indexOf(int term, int[] collection){
-        // TO DO: Implement a binary search
+        
+        int min = 0;
+        int max = collection.length-1;
+        int guess = (min + max) / 2;
+
+        
+        while( min <= max ){
+            
+            stepCounter++;
+            
+            if (collection[guess] < term ){
+                min = guess + 1;
+            } else if (collection[guess] == term){
+                return guess;
+            } else {
+                max = guess - 1;
+            }
+            guess = (min + max) / 2;
+        }
+        
+        if ( min > max ){
+            return -1;
+        }
+
         return -1;
+        
         
     }
      /**
@@ -57,31 +84,35 @@ public class BinarySearch {
     public static void main(String[] args)  { 
         
         //Read the search term
-        int term = Integer.parseInt(args[0]);
+        int term = Integer.parseInt("790810");
         
         // Read the input data stream (the collection)
         In in;
         int[] collection;
         try{ 
-            in = new In(args[1]);
+            in = new In("C:\\Users\\92020362\\Documents\\NetBeansProjects\\practice-activity-searching-PeterStanger92020362\\data\\1Mints.txt");
             collection = in.readAllInts();
-       
+            sort(collection);
+            
             // State intention
             System.out.print("Searching for " + term);
-            System.out.println(" in collection " + args[1]);
 
             // Start timer
             Stopwatch timer = new Stopwatch();
             
             // Search for item
-            boolean itemFound = contains(term, collection);
+            int itemIndex = indexOf(term, collection);
 
             // Stop timer
-            System.out.println("Elapsed time = " + timer.elapsedTime() + " seconds");
+            System.out.println("\nElapsed time = " + timer.elapsedTime() + " seconds\n");
 
             // Print result
-            String resultStr = itemFound ? "found" : "not found";
-            System.out.println("Search result: " + resultStr);
+            if(itemIndex!=-1){
+                System.out.println("The term was found at index: " + itemIndex);
+            } else {
+                System.out.println("The term could not be found...");
+            }
+            System.out.println("It took " + stepCounter + " steps to confirm.");
 
             
         } catch (java.lang.IllegalArgumentException e) {

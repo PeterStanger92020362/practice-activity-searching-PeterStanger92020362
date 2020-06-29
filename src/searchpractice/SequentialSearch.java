@@ -22,7 +22,7 @@ public class SequentialSearch {
     //
     // YOUR TASK: refactor the class name to SequentialSearch, using the IDE
     //
- 
+    private static int stepCounter =0;
     
  /**
  * Checks if collection contains an item.
@@ -50,6 +50,15 @@ public class SequentialSearch {
         //
         
         // default implementation: not found
+        
+        for (int i=0; i < collection.length; i++){
+            stepCounter++;
+
+            if (collection[i] == term){
+                return i;
+            }
+        }
+        
         return -1;        
     }
  
@@ -66,6 +75,7 @@ public class SequentialSearch {
      */
     public static void main(String[] args)  { 
         
+        int resultingIndex = 0;
         //Read the search term
         int term = Integer.parseInt(args[0]);
         
@@ -82,20 +92,24 @@ public class SequentialSearch {
             //            measure the ruinning time and print results.
             //            Some hints are provided as comments.
             //
-  
+            
+
+            System.out.println(collection.length);
             
             // Start timer - you may use your own implementation 
             //            or the utility class Stopwatch that is provided
-            
+            Stopwatch watch = new Stopwatch();
              
             // Search for term in collection by calling appropriate class methods
-            
+            resultingIndex=indexOf(term, collection);
         
             // Stop timer
+            double timeTaken = watch.elapsedTime();
          
-            
             // Print result
- 
+            System.out.println("The resulting index of the search term was " + resultingIndex);
+            System.out.println("It took " + timeTaken + " seconds to find the terms index");
+            System.out.println("It took " + stepCounter + " steps to find the term");
             
         } catch (java.lang.IllegalArgumentException e) {
             // Error with input data file
